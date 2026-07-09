@@ -4,6 +4,9 @@
 
 The plugin supports regenerative hydrological landscape design, soil conservation, water infiltration planning, agroforestry layout support and agricultural drainage analysis.
 
+<img width="1510" height="913" alt="image" src="https://github.com/user-attachments/assets/9edad988-2abb-4c41-9b57-5959a55a7cb8" />
+
+
 ## Main Features
 
 Current version: **0.6.0**
