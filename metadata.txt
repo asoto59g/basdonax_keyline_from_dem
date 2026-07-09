@@ -1,0 +1,12 @@
+[general]
+name=Basdonax Keyline From DEM
+description=Genera lineas keyline-like desde DEM con clasificacion de pendiente
+version=1.0.0
+qgisMinimumVersion=3.28
+author=Basdonax AI
+email=dev@basdonax.ai
+about=Plugin de QGIS para generar lineas de infiltracion a partir de DEM
+category=Analysis
+icon=
+experimental=False
+deprecated=False
