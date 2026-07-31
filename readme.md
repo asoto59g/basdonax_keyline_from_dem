@@ -11,7 +11,7 @@ The plugin supports regenerative hydrological landscape design, soil conservatio
 
 ## Main Features
 
-Current version: **0.6.0**
+Current version: **0.7.2**
 
 Implemented phases:
 
