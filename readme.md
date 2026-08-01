@@ -85,7 +85,7 @@ For operational LDI design:
 1) Open QGIS.
 2) Go to Plugins → Manage and Install Plugins...
 3) Select the All tab (or Not Installed if the plugin has not yet been installed).
-4) In the Search box, type Basdonax Keyline from DEM.
+4) In the Search box, type "Basdonax Keyline from DEM".
 5) Select the plugin from the list.
 6) Review the plugin description, version, author, and compatibility information.
 7) Click Install Plugin.
