@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.7.2 - QGIS 4 / Qt6 compatibility
+
+### Fixed
+
+- Updated PyQGIS enum references for QGIS 4 / Qt6 compatibility.
+
+## 0.7.1 - Security Scan Compliance
+
+### Changed
+
+- Replaced silent `except` branches with explicit fallback values or logged warnings.
+- Removed `except ...: pass` and `except ...: continue` patterns flagged by the QGIS security scanner.
+
+## 0.7.0 - Output Reliability and Packaging
+
+### Changed
+
+- Unified release metadata and documentation to version 0.7.0.
+- Design Unit output geometries are explicitly converted to MultiPolygon.
+- Feature-sink write failures now stop processing with a clear error.
+
 ## 0.6.0 - Phase 5.0 - Multicriteria Optimization
 
 ### Added

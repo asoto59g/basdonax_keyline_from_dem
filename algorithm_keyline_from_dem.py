@@ -84,7 +84,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
 
     def displayName(self):
         return self.tr(
-            "Generar LDI/Keyline desde DEM - Fase 5.0 v0.6.0 - Optimizacion Multicriterio"
+            "Generar LDI/Keyline desde DEM - Fase 5.0 v0.7.1 - Optimizacion Multicriterio"
         )
 
     def group(self):
@@ -105,6 +105,20 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
     def createInstance(self):
         return KeylineFromDemAlgorithm()
 
+    def _safe_text(self, value, max_len=254):
+        if value is None:
+            return ""
+
+        try:
+            txt = str(value)
+        except Exception:
+            txt = ""
+
+        if len(txt) > max_len:
+            return txt[:max_len - 3] + "..."
+
+        return txt
+
     def initAlgorithm(self, config=None):
         self.addParameter(
             QgsProcessingParameterRasterLayer(
@@ -117,7 +131,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.INPUT_MASK,
                 self.tr("Mascara de area de diseno opcional"),
-                [QgsProcessing.TypeVectorPolygon],
+                [QgsProcessing.SourceType.TypeVectorPolygon],
                 optional=True
             )
         )
@@ -126,7 +140,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.INPUT_EXCLUSION,
                 self.tr("Restricciones / exclusiones opcionales"),
-                [QgsProcessing.TypeVectorAnyGeometry],
+                [QgsProcessing.SourceType.TypeVectorAnyGeometry],
                 optional=True
             )
         )
@@ -135,7 +149,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 self.INPUT_UD,
                 self.tr("Unidades de Diseno opcionales"),
-                [QgsProcessing.TypeVectorPolygon],
+                [QgsProcessing.SourceType.TypeVectorPolygon],
                 optional=True
             )
         )
@@ -157,7 +171,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.UD_GRID_SIZE,
                 self.tr("Tamano base de celda para UD automatica preliminar (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=30.0,
                 minValue=5.0
             )
@@ -167,7 +181,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.UD_MIN_AREA,
                 self.tr("Area minima de Unidad de Diseno (m2)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=300.0,
                 minValue=10.0
             )
@@ -177,7 +191,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.UD_SAMPLE_STEP,
                 self.tr("Paso de muestreo interno para caracterizar UD (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=3.0,
                 minValue=0.5
             )
@@ -200,7 +214,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MOTHER_MIN_CENTER_SCORE,
                 self.tr("Puntaje minimo recomendado de centralidad de Linea Madre"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=20.0,
                 minValue=0.0,
                 maxValue=100.0
@@ -225,7 +239,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.TARGET_GRADE,
                 self.tr("Pendiente longitudinal objetivo de distribucion (%)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=0.12,
                 minValue=0.0
             )
@@ -235,7 +249,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.GRADE_TOLERANCE,
                 self.tr("Tolerancia de pendiente objetivo (+/- %)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=0.18,
                 minValue=0.01
             )
@@ -253,7 +267,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.DRAIN_BREAK_BUFFER,
                 self.tr("Semi-ancho de ruptura en drenajes potenciales (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=5.0,
                 minValue=0.0
             )
@@ -263,7 +277,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MIN_WDI,
                 self.tr("WDI minimo recomendado"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=55.0,
                 minValue=0.0,
                 maxValue=100.0
@@ -274,7 +288,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MAX_FLOW_ANGLE,
                 self.tr("Angulo maximo recomendado respecto a contorno local (grados)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=12.0,
                 minValue=1.0,
                 maxValue=90.0
@@ -285,7 +299,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.EXCLUSION_BUFFER,
                 self.tr("Buffer de exclusion (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=3.0,
                 minValue=0.0
             )
@@ -295,7 +309,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.CONTOUR_INTERVAL,
                 self.tr("Intervalo de curvas (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=0.5,
                 minValue=0.01
             )
@@ -305,7 +319,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.SPACING,
                 self.tr("Espaciamiento base entre lineas (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=3.5,
                 minValue=0.1
             )
@@ -315,7 +329,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.N_OFFSETS,
                 self.tr("Cantidad de offsets por lado"),
-                type=QgsProcessingParameterNumber.Integer,
+                type=QgsProcessingParameterNumber.Type.Integer,
                 defaultValue=100,
                 minValue=1
             )
@@ -325,7 +339,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.SMOOTH_ITERS,
                 self.tr("Iteraciones de suavizado Chaikin"),
-                type=QgsProcessingParameterNumber.Integer,
+                type=QgsProcessingParameterNumber.Type.Integer,
                 defaultValue=2,
                 minValue=0
             )
@@ -335,7 +349,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MIN_LENGTH,
                 self.tr("Longitud minima de linea (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=20.0,
                 minValue=0.0
             )
@@ -345,7 +359,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MAX_LENGTH,
                 self.tr("Longitud maxima continua base de linea (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=200.0,
                 minValue=10.0
             )
@@ -355,7 +369,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MAX_SLOPE,
                 self.tr("Pendiente longitudinal maxima admisible (%)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=0.50,
                 minValue=0.01
             )
@@ -365,7 +379,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MIN_RADIUS,
                 self.tr("Radio minimo admisible (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=12.0,
                 minValue=1.0
             )
@@ -375,7 +389,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.DENSIFY,
                 self.tr("Densificacion para muestreo DEM / GNSS (m)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=2.0,
                 minValue=0.2
             )
@@ -385,7 +399,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.FLOW_THRESHOLD_AREA,
                 self.tr("Umbral de area contribuyente para drenaje potencial (m2)"),
-                type=QgsProcessingParameterNumber.Double,
+                type=QgsProcessingParameterNumber.Type.Double,
                 defaultValue=500.0,
                 minValue=1.0
             )
@@ -395,7 +409,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterNumber(
                 self.MAX_HYDRO_CELLS,
                 self.tr("Maximo de celdas para hidrologia en memoria"),
-                type=QgsProcessingParameterNumber.Integer,
+                type=QgsProcessingParameterNumber.Type.Integer,
                 defaultValue=2000000,
                 minValue=10000
             )
@@ -405,7 +419,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSink(
                 self.OUTPUT,
                 self.tr("Lineas LDI / Keyline"),
-                type=QgsProcessing.TypeVectorLine
+                type=QgsProcessing.SourceType.TypeVectorLine
             )
         )
 
@@ -413,7 +427,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSink(
                 self.OUTPUT_POINTS,
                 self.tr("Puntos GNSS / replanteo"),
-                type=QgsProcessing.TypeVectorPoint
+                type=QgsProcessing.SourceType.TypeVectorPoint
             )
         )
 
@@ -421,7 +435,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSink(
                 self.OUTPUT_DRAINAGE,
                 self.tr("Drenajes potenciales derivados del DEM"),
-                type=QgsProcessing.TypeVectorLine
+                type=QgsProcessing.SourceType.TypeVectorLine
             )
         )
 
@@ -429,7 +443,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSink(
                 self.OUTPUT_UD,
                 self.tr("Unidades de Diseno LDI"),
-                type=QgsProcessing.TypeVectorPolygon
+                type=QgsProcessing.SourceType.TypeVectorPolygon
             )
         )
 
@@ -437,7 +451,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterFeatureSink(
                 self.OUTPUT_MOTHER,
                 self.tr("Lineas Madre Inteligentes por UD"),
-                type=QgsProcessing.TypeVectorLine
+                type=QgsProcessing.SourceType.TypeVectorLine
             )
         )
 
@@ -615,19 +629,19 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
         fields.append(QgsField("dr_breaks", QVariant.Int))
         fields.append(QgsField("opt_score", QVariant.Double, len=8, prec=2))
         fields.append(QgsField("opt_act", QVariant.String, len=20))
-        fields.append(QgsField("opt_review", QVariant.String, len=160))
+        fields.append(QgsField("opt_review", QVariant.String, len=254))
 
         fields.append(QgsField("risk_cls", QVariant.String, len=6))
         fields.append(QgsField("icl", QVariant.Double, len=8, prec=2))
         fields.append(QgsField("status", QVariant.String, len=20))
-        fields.append(QgsField("review", QVariant.String, len=160))
+        fields.append(QgsField("review", QVariant.String, len=254))
 
         sink, dest_id = self.parameterAsSink(
             parameters,
             self.OUTPUT,
             context,
             fields,
-            QgsWkbTypes.LineString,
+            QgsWkbTypes.Type.LineString,
             dem.crs()
         )
 
@@ -652,7 +666,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             self.OUTPUT_POINTS,
             context,
             pt_fields,
-            QgsWkbTypes.Point,
+            QgsWkbTypes.Type.Point,
             dem.crs()
         )
 
@@ -669,7 +683,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             self.OUTPUT_DRAINAGE,
             context,
             dr_fields,
-            QgsWkbTypes.LineString,
+            QgsWkbTypes.Type.LineString,
             dem.crs()
         )
 
@@ -693,14 +707,14 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
         ud_fields.append(QgsField("spacing_m", QVariant.Double, len=10, prec=3))
         ud_fields.append(QgsField("max_len_m", QVariant.Double, len=12, prec=2))
         ud_fields.append(QgsField("status", QVariant.String, len=20))
-        ud_fields.append(QgsField("review", QVariant.String, len=160))
+        ud_fields.append(QgsField("review", QVariant.String, len=254))
 
         ud_sink, ud_dest_id = self.parameterAsSink(
             parameters,
             self.OUTPUT_UD,
             context,
             ud_fields,
-            QgsWkbTypes.MultiPolygon,
+            QgsWkbTypes.Type.MultiPolygon,
             dem.crs()
         )
 
@@ -724,14 +738,14 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
         mother_fields.append(QgsField("score_sin", QVariant.Double, len=8, prec=2))
         mother_fields.append(QgsField("method", QVariant.String, len=20))
         mother_fields.append(QgsField("status", QVariant.String, len=20))
-        mother_fields.append(QgsField("review", QVariant.String, len=160))
+        mother_fields.append(QgsField("review", QVariant.String, len=254))
 
         mother_sink, mother_dest_id = self.parameterAsSink(
             parameters,
             self.OUTPUT_MOTHER,
             context,
             mother_fields,
-            QgsWkbTypes.LineString,
+            QgsWkbTypes.Type.LineString,
             dem.crs()
         )
 
@@ -1008,8 +1022,12 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                 try:
                     if not g_off.isGeosValid():
                         g_off = g_off.makeValid()
-                except Exception:
-                    pass
+                except Exception as e:
+                    feedback.pushWarning(
+                        f"UD {ud['ud_id']} | No se pudo validar el offset "
+                        f"{offset_m:.3f} m: {str(e)}"
+                    )
+                    g_off = QgsGeometry()
 
                 try:
                     g_clip = g_off.intersection(valid_mask_ud)
@@ -1168,14 +1186,23 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                             f["dr_breaks"] = int(opt_data.get("dr_breaks", 0))
                             f["opt_score"] = opt_data.get("opt_score")
                             f["opt_act"] = opt_data.get("opt_action")
-                            f["opt_review"] = opt_data.get("opt_review")
+                            f["opt_review"] = self._safe_text(opt_data.get("opt_review"), 254)
+                            ...
+                            f["review"] = self._safe_text(review, 254)
 
                             f["risk_cls"] = risk
                             f["icl"] = icl
                             f["status"] = status
-                            f["review"] = review
+                            f["review"] = self._safe_text(review, 254)
 
-                            sink.addFeature(f, QgsFeatureSink.FastInsert)
+                            ok = sink.addFeature(f, QgsFeatureSink.Flag.FastInsert)
+
+                            if not ok:
+                                feedback.pushWarning(
+                                    f"No se pudo escribir la linea {line_id}. Se omite tambien su replanteo."
+                                )
+                                continue
+
                             accepted_line_count += 1
 
                             self._write_stakeout_points(
@@ -1255,7 +1282,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
 
         stats = provider.bandStatistics(
             1,
-            QgsRasterBandStats.All,
+            QgsRasterBandStats.Stats.All,
             dem.extent(),
             0
         )
@@ -1321,14 +1348,17 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                 try:
                     v = float(block.value(r, c))
                 except Exception:
-                    continue
+                    v = math.nan
 
+                nodata_value = None
                 if nodata is not None:
                     try:
-                        if abs(v - float(nodata)) < 1e-12:
-                            continue
+                        nodata_value = float(nodata)
                     except Exception:
-                        pass
+                        nodata_value = None
+
+                if nodata_value is not None and abs(v - nodata_value) < 1e-12:
+                    continue
 
                 if math.isfinite(v):
                     arr[r, c] = v
@@ -1745,12 +1775,19 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                     QgsPointXY(x2, y2)
                 ])
 
-                try:
-                    if mask_geom is not None and not geom.intersects(mask_geom):
-                        skipped_by_mask += 1
-                        continue
-                except Exception:
-                    pass
+                intersects_mask = True
+                if mask_geom is not None:
+                    try:
+                        intersects_mask = geom.intersects(mask_geom)
+                    except Exception as e:
+                        feedback.pushWarning(
+                            f"No se pudo evaluar el drenaje {drain_id} contra la mascara: {str(e)}"
+                        )
+                        intersects_mask = False
+
+                if not intersects_mask:
+                    skipped_by_mask += 1
+                    continue
 
                 f = QgsFeature(fields)
                 f.setGeometry(geom)
@@ -1758,7 +1795,10 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                 f["acc_m2"] = float(acc[r, c] * cell_area)
                 f["acc_cells"] = float(acc[r, c])
 
-                sink.addFeature(f, QgsFeatureSink.FastInsert)
+                if not sink.addFeature(f, QgsFeatureSink.Flag.FastInsert):
+                    raise QgsProcessingException(
+                        f"No se pudo escribir el drenaje potencial {drain_id}."
+                    )
 
                 drain_id += 1
                 exported_count += 1
@@ -1991,18 +2031,26 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                     continue
 
                 try:
-                    if not g.intersects(mask_geom):
-                        continue
-                except Exception:
+                    intersects_mask = g.intersects(mask_geom)
+                except Exception as e:
+                    feedback.pushWarning(
+                        f"No se pudo evaluar una curva contra la mascara: {str(e)}"
+                    )
+                    intersects_mask = False
+
+                if not intersects_mask:
                     continue
 
                 elev = ft["ELEV"]
 
                 if elev is not None:
                     try:
-                        values.append(float(elev))
+                        elev_value = float(elev)
                     except Exception:
-                        pass
+                        elev_value = None
+
+                    if elev_value is not None:
+                        values.append(elev_value)
 
         if values:
             values.sort()
@@ -2014,7 +2062,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
 
         stats = fallback_dem.dataProvider().bandStatistics(
             1,
-            QgsRasterBandStats.All,
+            QgsRasterBandStats.Stats.All,
             fallback_dem.extent(),
             0
         )
@@ -2070,7 +2118,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             try:
                 g_clip = g.intersection(mask_geom)
             except Exception:
-                continue
+                g_clip = QgsGeometry()
 
             if g_clip is None or g_clip.isEmpty():
                 continue
@@ -2189,7 +2237,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
 
         geom_type = QgsWkbTypes.geometryType(geom.wkbType())
 
-        if geom_type == QgsWkbTypes.LineGeometry:
+        if geom_type == QgsWkbTypes.GeometryType.LineGeometry:
             if geom.isMultipart():
                 try:
                     mpl = geom.asMultiPolyline()
@@ -2215,21 +2263,23 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
 
         try:
             collection = geom.asGeometryCollection()
-
-            if collection:
-                for sub in collection:
-                    out.extend(self._explode_to_lines(sub))
-
-                return out
         except Exception:
-            pass
+            collection = []
+
+        if collection:
+            for sub in collection:
+                out.extend(self._explode_to_lines(sub))
+
+            return out
 
         try:
-            for part in geom.constParts():
-                sub = QgsGeometry(part.clone())
-                out.extend(self._explode_to_lines(sub))
+            parts = list(geom.constParts())
         except Exception:
-            pass
+            parts = []
+
+        for part in parts:
+            sub = QgsGeometry(part.clone())
+            out.extend(self._explode_to_lines(sub))
 
         return out
 
@@ -2843,7 +2893,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                 try:
                     g = g.intersection(valid_mask)
                 except Exception:
-                    continue
+                    g = QgsGeometry()
 
                 if g is None or g.isEmpty():
                     continue
@@ -3072,9 +3122,11 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
                 p_geom = QgsGeometry.fromPointXY(QgsPointXY(x, y))
 
                 try:
-                    if not geom.intersects(p_geom):
-                        continue
+                    is_inside = geom.intersects(p_geom)
                 except Exception:
+                    is_inside = False
+
+                if not is_inside:
                     continue
 
                 sp = geomorph["slope_pct"][r, c]
@@ -3338,8 +3390,18 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
         return float(spacing_m), float(max_len_m)
 
     def _write_ud_feature(self, ud, fields, sink):
+        geom = QgsGeometry(ud["geom"])
+
+        if QgsWkbTypes.isSingleType(geom.wkbType()):
+            geom.convertToMultiType()
+
+        if QgsWkbTypes.geometryType(geom.wkbType()) != QgsWkbTypes.GeometryType.PolygonGeometry:
+            raise QgsProcessingException(
+                f"La UD {ud['ud_id']} no tiene una geometria poligonal valida."
+            )
+
         f = QgsFeature(fields)
-        f.setGeometry(ud["geom"])
+        f.setGeometry(geom)
 
         f["ud_id"] = ud["ud_id"]
         f["ud_name"] = ud["ud_name"]
@@ -3359,9 +3421,12 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
         f["spacing_m"] = float(ud["spacing_m"])
         f["max_len_m"] = float(ud["max_len_m"])
         f["status"] = ud["status"]
-        f["review"] = ud["review"]
+        f["review"] = self._safe_text(ud["review"], 254)
 
-        sink.addFeature(f, QgsFeatureSink.FastInsert)
+        if not sink.addFeature(f, QgsFeatureSink.Flag.FastInsert):
+            raise QgsProcessingException(
+                f"No se pudo escribir la UD {ud['ud_id']}."
+            )
 
     def _select_intelligent_mother_line_for_ud(
         self,
@@ -3405,7 +3470,7 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             try:
                 g_clip = g.intersection(mask_geom)
             except Exception:
-                continue
+                g_clip = QgsGeometry()
 
             if g_clip is None or g_clip.isEmpty():
                 continue
@@ -3707,11 +3772,11 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             try:
                 pg = QgsGeometry.fromPointXY(p)
                 d = pg.distance(boundary)
-
-                if math.isfinite(d):
-                    distances.append(float(d))
             except Exception:
-                continue
+                d = math.nan
+
+            if math.isfinite(d):
+                distances.append(float(d))
 
         if not distances:
             return 50.0
@@ -3781,9 +3846,12 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
         f["score_sin"] = audit.get("score_sin")
         f["method"] = audit.get("method", "NA")
         f["status"] = audit.get("status", "NA")
-        f["review"] = audit.get("review", "")
+        f["review"] = self._safe_text(audit.get("review", ""), 254)
 
-        sink.addFeature(f, QgsFeatureSink.FastInsert)
+        if not sink.addFeature(f, QgsFeatureSink.Flag.FastInsert):
+            raise QgsProcessingException(
+                f"No se pudo escribir la linea madre de la UD {ud['ud_id']}."
+            )
 
     def _optimize_line_candidate_phase5(
         self,
@@ -4451,7 +4519,10 @@ class KeylineFromDemAlgorithm(QgsProcessingAlgorithm):
             f["is_drain"] = is_drain
             f["offset_m"] = float(offset_m)
 
-            sink.addFeature(f, QgsFeatureSink.FastInsert)
+            if not sink.addFeature(f, QgsFeatureSink.Flag.FastInsert):
+                raise QgsProcessingException(
+                    f"No se pudo escribir el punto {pt_id} de la linea {line_id}."
+                )
 
             prev = p
             pt_id += 1

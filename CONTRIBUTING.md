@@ -40,5 +40,5 @@ Before submitting a pull request:
 
 - Run syntax checks.
 - Test with a small DEM.
-- Update `CHANGELOG.md`.
-- Document new parameters in `README.md`.
+- Update `Changelog.md`.
+- Document new parameters in `readme.md`.

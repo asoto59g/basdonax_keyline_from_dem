@@ -1,10 +1,10 @@
 [general]
 name=Basdonax Keyline from DEM
 qgisMinimumVersion=3.28
-qgisMaximumVersion=
+qgisMaximumVersion=4.99
 description=Computational design of Keyline infiltration lines from DEM/DTM.
 about=Basdonax Keyline from DEM is a QGIS Processing plugin for computational design of infiltration lines, Keyline-inspired layouts and regenerative hydrological landscape planning from digital terrain models. It includes DEM validation, hydrological analysis, D8 flow accumulation, potential drainage detection, design units, intelligent mother lines and multicriteria optimization using WDI and ICL indicators.
-version=0.6.0
+version=0.7.2
 author=Basdonax
 email=oasotob@gmail.com
 icon=icon.png
@@ -13,7 +13,7 @@ tags=keyline,ldi,infiltration,hydrology,dem,dtm,regenerative agriculture,water h
 homepage=https://github.com/asoto59g/basdonax_keyline_from_dem
 tracker=https://github.com/asoto59g/basdonax_keyline_from_dem/issues
 repository=https://github.com/asoto59g/basdonax_keyline_from_dem
-experimental=True
+experimental=False
 deprecated=False
-changelog=Version 0.6.0: Phase 5 multicriteria optimization with WDI, hydrological breaks, design units and intelligent mother line support.
+changelog=Version 0.7.2: QGIS 4 / Qt6 enum compatibility fixes.
 license=GPL-2.0-or-later
