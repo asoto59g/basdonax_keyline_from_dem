@@ -1,4 +1,6 @@
-﻿DEM / DTM en metros:
+# Parametros para complemento para ejemplo 12jicaro
+ 
+ DEM / DTM en metros:
 
 12jicaro\_snit.tif
 
