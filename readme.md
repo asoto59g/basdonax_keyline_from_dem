@@ -5,7 +5,7 @@
 The plugin supports regenerative hydrological landscape design, soil conservation, water infiltration planning, agroforestry layout support and agricultural drainage analysis.
 
 --------
-Link plugin: https://github.com/asoto59g/basdonax_keyline_from_dem
+Link plugin: https://plugins.qgis.org/plugins/basdonax_keyline_from_dem/
 
 --------
 <img width="1510" height="913" alt="preview" src="https://github.com/user-attachments/assets/396cb255-b4ee-4de5-a047-a7190c5f627f" />
