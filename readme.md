@@ -3,6 +3,8 @@
 **Basdonax Keyline from DEM** is a QGIS Processing plugin for computational design of LDI / Keyline-inspired infiltration lines from DEM or DTM data.
 
 The plugin supports regenerative hydrological landscape design, soil conservation, water infiltration planning, agroforestry layout support and agricultural drainage analysis.
+
+
 <img width="1510" height="913" alt="preview" src="https://github.com/user-attachments/assets/396cb255-b4ee-4de5-a047-a7190c5f627f" />
 
 
