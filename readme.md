@@ -17,7 +17,16 @@ Link plugin: https://plugins.qgis.org/plugins/basdonax_keyline_from_dem/
 --------
 <img width="1510" height="913" alt="preview" src="https://github.com/user-attachments/assets/396cb255-b4ee-4de5-a047-a7190c5f627f" />
 
+---
 
+## Requirements
+
+- QGIS 3.28 or newer
+- Recommended:
+  - QGIS 3.40 LTR
+  - QGIS 4.x
+
+---
 ## Main Features
 
 Current version: **0.7.2**
