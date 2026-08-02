@@ -1,116 +1,67 @@
 # Parametros para complemento para ejemplo 12jicaro
  
- DEM / DTM en metros:
+  Parámetro                                                         Valor
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DEM                                                        12jicaro.tif
+  ───────────────────────────────  ────────────────────────────────────────
+   Máscara                                                12jicaro.geojson
+  ───────────────────────────────  ────────────────────────────────────────
+   Exclusiones                                                     Ninguna
+  ───────────────────────────────  ────────────────────────────────────────
+   Unidades de Diseño                                   ud12jicaro.geojson
+  ───────────────────────────────  ────────────────────────────────────────
+   Modo UD                                Usar UD suministradas si existen
+  ───────────────────────────────  ────────────────────────────────────────
+   Tamaño UD automática                                               30 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Área mínima UD                                                   300 m²
+  ───────────────────────────────  ────────────────────────────────────────
+   Paso de muestreo UD                                                10 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Línea madre                      Fase 2 clasica: curva candidata local
+  ───────────────────────────────  ────────────────────────────────────────
+   Centralidad mínima                                                    5
+  ───────────────────────────────  ────────────────────────────────────────
+   Optimización                              Multicriterio completa Fase 5
+  ───────────────────────────────  ────────────────────────────────────────
+   Pendiente objetivo                                               0,12 %
+  ───────────────────────────────  ────────────────────────────────────────
+   Tolerancia                                                       0,20 %
+  ───────────────────────────────  ────────────────────────────────────────
+   Cortar en drenajes                                             Activado
+  ───────────────────────────────  ────────────────────────────────────────
+   Buffer de ruptura                                                   5 m
+  ───────────────────────────────  ────────────────────────────────────────
+   WDI mínimo                                                           55
+  ───────────────────────────────  ────────────────────────────────────────
+   Ángulo máximo                                                       12°
+  ───────────────────────────────  ────────────────────────────────────────
+   Buffer exclusión                                                    0 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Intervalo de curvas                                              0,50 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Espaciamiento base                                                 30 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Offsets por lado                                                     15
+  ───────────────────────────────  ────────────────────────────────────────
+   Suavizado Chaikin                                                     1
+  ───────────────────────────────  ────────────────────────────────────────
+   Longitud mínima                                                    20 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Longitud máxima                                                   250 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Pendiente longitudinal máxima                                     1,0 %
+  ───────────────────────────────  ────────────────────────────────────────
+   Radio mínimo                                                       30 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Densificación                                                      10 m
+  ───────────────────────────────  ────────────────────────────────────────
+   Umbral de drenaje                                             20.000 m²
+  ───────────────────────────────  ────────────────────────────────────────
+   Máximo de celdas                                      10.000 o superior
 
-12jicaro\_snit.tif
+  
 
-Máscara de área de diseño opcional:
-
-12jicaro.shp
-
-Restricciones / exclusiones opcionales:
-
-None
-
-Unidades de Diseño opcionales:
-
-None
-
-Modo de Unidades de Diseño:
-
-Usar toda el área como una sola UD
-
-Tamaño base de celda para UD automática preliminar (m):
-
-30
-
-Área mínima de Unidad de Diseño (m²):
-
-100
-
-Paso de muestreo interno para caracterizar UD (m):
-
-10
-
-Método de selección de Línea Madre:
-
-Fase 4 inteligente con respaldo Fase 2
-
-Puntaje mínimo recomendado de centralidad de Línea Madre:
-
-5
-
-Modo de optimización Fase 5:
-
-Optimización hidrológica: cortar drenajes + WDI
-
-Pendiente longitudinal objetivo de distribución (%):
-
-0\.10
-
-Tolerancia de pendiente objetivo (+/- %):
-
-0\.20
-
-Cortar líneas automáticamente en drenajes potenciales:
-
-Desactivado / False
-
-Semi-ancho de ruptura en drenajes potenciales (m):
-
-0
-
-WDI mínimo recomendado:
-
-40
-
-Ángulo máximo recomendado respecto a contorno local (grados):
-
-8
-
-Buffer de exclusión (m):
-
-0
-
-Intervalo de curvas (m):
-
-0\.5
-
-Espaciamiento base entre líneas (m):
-
-30
-
-Cantidad de offsets por lado:
-
-35
-
-Iteraciones de suavizado Chaikin:
-
-1
-
-Longitud mínima de línea (m):
-
-20
-
-Longitud máxima continua base de línea (m):
-
-5000
-
-Pendiente longitudinal máxima admisible (%):
-
-1\.0
-
-Radio mínimo admisible (m):
-
-30
-
-Densificación para muestreo DEM / GNSS (m):
-
-10
-
-Umbral de área contribuyente para drenaje potencial (m²):
-
-100000
 
 Máximo de celdas para hidrología en memoria:
 
