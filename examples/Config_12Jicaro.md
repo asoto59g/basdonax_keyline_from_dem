@@ -24,7 +24,7 @@
 ---
    Optimización:                              Multicriterio completa Fase 5
 ---
-   Pendiente objetivo                                               0,12 %
+   Pendiente objetivo:                                               0,12 %
 ---
    Tolerancia :                                                      0,20 %
 ---
@@ -57,5 +57,6 @@
    Densificación:                                                      10 m
 ---
    Umbral de drenaje :                                            20.000 m²
-  ---
+---
    Máximo de celdas:                                      10.000 o superior
+---
