@@ -99,6 +99,8 @@ For operational LDI design:
 
 ## Results
 ---
-<img width="6880" height="3816" alt="12jicarokeyline" src="https://github.com/user-attachments/assets/71dfbe80-edd3-45e1-86d6-2d45e9fa727c" />
+<img width="6880" height="3816" alt="12jicarokeyline" src="https://github.com/user-attachments/assets/579a8982-a550-41f8-87b4-eb72b58484f1" />
+---
+
 
 
