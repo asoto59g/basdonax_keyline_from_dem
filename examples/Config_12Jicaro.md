@@ -1,5 +1,5 @@
 # Parametros para complemento para ejemplo 12jicaro
- 
+
   Parámetro                                                         Valor
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    DEM                                                        12jicaro.tif
@@ -61,8 +61,3 @@
    Máximo de celdas                                      10.000 o superior
 
   
-
-
-Máximo de celdas para hidrología en memoria:
-
-2000000
