@@ -96,3 +96,9 @@ For operational LDI design:
 7) Click Install Plugin.
 8) Wait for the installation to complete.
 9) Once installed, the plugin will appear under the Installed tab and on the QGIS toolbar.
+
+## Results
+---
+<img width="6880" height="3816" alt="12jicarokeyline" src="https://github.com/user-attachments/assets/71dfbe80-edd3-45e1-86d6-2d45e9fa727c" />
+
+
