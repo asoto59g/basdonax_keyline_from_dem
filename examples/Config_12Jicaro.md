@@ -1,6 +1,9 @@
 # Parametros para complemento para ejemplo 12jicaro
 
+---
+---
    Parámetro:                                                         Valor
+---
 ---
    DEM:                                                        12jicaro.tif
 ---
